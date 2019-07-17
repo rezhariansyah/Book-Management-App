@@ -1,0 +1,87 @@
+.hidden {
+    display: block; /* or inline-block */
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+    max-height: 3.6em;
+    line-height: 1.8em;
+    margin-bottom: 0px;
+}
+
+.jumbotron {
+    color: white;
+    background-size: cover;
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.6;
+    background-color: black;
+    z-index: 1;
+}
+
+.jumbotron > .inner {
+    position: relative;
+    z-index: 2;
+}
+
+.badge {
+    position: absolute;
+    top : 170px;
+    right: 20px;
+}
+
+.cardHome {
+    border-radius: 20px;
+}
+
+.image {
+    opacity: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
+
+.middle {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.card {
+    border-radius: 20px !important;
+}
+
+.card img {
+    border-radius: 20px;
+}
+
+.card:hover .image {
+    opacity: 0.6;
+}
+
+.card:hover .middle {
+    opacity: 1;
+}
+
+.text {
+    color: white;
+    font-size: 16px;
+}
+
+.card-body {
+    padding : 7px !important;
+}
+
