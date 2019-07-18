@@ -8,6 +8,21 @@
     margin-bottom: 0px;
 }
 
+.hiddenTitle {
+    display: block; /* or inline-block */
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+    max-height: 2em;
+    line-height: 1.8em;
+    margin-bottom: 0px;
+}
+
+.cursor:hover {
+    cursor: pointer;
+    color: red;
+}
+
 .jumbotron {
     color: white;
     background-size: cover;
@@ -66,10 +81,11 @@
 
 .card img {
     border-radius: 20px;
+    height: 232px;
 }
 
 .card:hover .image {
-    opacity: 0.6;
+    opacity: 0.4;
 }
 
 .card:hover .middle {

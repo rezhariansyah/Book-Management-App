@@ -6,11 +6,15 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
+import { Provider } from 'react-redux';
+import store from './Publics/Store';
 
 ReactDOM.render(
+                <Provider store={store}>
                 <BrowserRouter>
                     <App />
-                </BrowserRouter>, 
+                </BrowserRouter>
+                </Provider>, 
                 document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
