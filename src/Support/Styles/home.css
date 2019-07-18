@@ -77,11 +77,16 @@
 
 .card {
     border-radius: 20px !important;
+    border-color: black;
+    -webkit-box-shadow: -11px 16px 18px -14px rgba(0,0,0,0.73);
+    -moz-box-shadow: -11px 16px 18px -14px rgba(0,0,0,0.73);
+    box-shadow: -11px 16px 18px -14px rgba(0,0,0,0.73);
 }
 
 .card img {
     border-radius: 20px;
     height: 232px;
+    background-size: cover;
 }
 
 .card:hover .image {
