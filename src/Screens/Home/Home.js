@@ -35,7 +35,7 @@ class Home extends Component {
   };
 
   getAllComic = async () => {
-    await this.props.dispatch(getAllComic());  
+    await this.props.dispatch(getAllComic());
   };
 
   getAllScience = async () => {
@@ -47,7 +47,7 @@ class Home extends Component {
   };
 
   renderBookJsx = () => {
-    if(this.props.Book.bookList.length > 0) {
+    if (this.props.Book.bookList.length > 0) {
       let jsx = this.props.Book.bookList.map(val => {
         return (
           <div key={val.id_book} className="col-md-2 mb-5 mr-5">
@@ -64,13 +64,28 @@ class Home extends Component {
                 className="image card-img-top cardHome img-fluid"
                 alt="..."
               />
-              <h6>
-                <span class="badge badge-success">
-                  {val.status ? "Available" : "Borrowed"}
-                </span>
-              </h6>
+              {val.status ? (
+                <h6 style={{ display: "inline" }}>
+                  <span
+                    style={{ padding: "4px" }}
+                    className="badge status badge-success"
+                  >
+                    &nbsp;Available&nbsp;
+                  </span>
+                </h6>
+              ) : (
+                <h6 style={{ display: "inline" }}>
+                  <span
+                    style={{ padding: "4px" }}
+                    className="badge status badge-danger"
+                  >
+                    &nbsp;Borrowed&nbsp;
+                  </span>
+                </h6>
+              )}
+
               <div className="middle">
-                <BorrowModal />
+                <BorrowModal book={val} />
                 <Link to={"/bookDetail/" + val.id_book}>
                   <div className="text">
                     <input
@@ -83,7 +98,7 @@ class Home extends Component {
               </div>
               <div className="card-body">
                 <h5 className="card-text hiddenTitle">{val.title}</h5>
-                <p className="hidden" style={{ fontSize: 12 }}>
+                <p className="hidden" style={{ fontSize: 12, color: "white" }}>
                   {val.description}
                 </p>
               </div>
@@ -94,7 +109,10 @@ class Home extends Component {
       return jsx;
     } else {
       return (
-        <div key={this.props.Book.bookList.id_book} className="col-md-2 mb-5 mr-5">
+        <div
+          key={this.props.Book.bookList.id_book}
+          className="col-md-2 mb-5 mr-5"
+        >
           <div
             className="card text-white"
             style={{
@@ -126,7 +144,9 @@ class Home extends Component {
               </Link>
             </div>
             <div className="card-body">
-              <h5 className="card-text hiddenTitle">{this.props.Book.bookList.title}</h5>
+              <h5 className="card-text hiddenTitle">
+                {this.props.Book.bookList.title}
+              </h5>
               <p className="hidden" style={{ fontSize: 12 }}>
                 {this.props.Book.bookList.description}
               </p>
@@ -135,10 +155,11 @@ class Home extends Component {
         </div>
       );
     }
-    
   };
 
   render() {
+    console.log(this.props.Book.bookList);
+
     if (this.state.loading) {
       return "Loading...";
     }
@@ -167,6 +188,7 @@ class Home extends Component {
                   className="form-control mt-3 mb-3 rounded-pill"
                   style={{ width: "500px" }}
                   placeholder="Search..."
+                  onChange={this.searchBook}
                 />
               </div>
             </div>

@@ -1,50 +1,102 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { getAllBorrow } from "../../Publics/Actions/Borrow";
 
 class Loan extends Component {
-    render() {
-        return (
-            <div className="container">
-                <div className="row mt-5 mb-5">
-                    <div className="col-sm-8">
-                        <div className="row">
-                            <div className="col-sm-12">
-                                <h3>Borrowed Books</h3>
-                                <hr/>
-                                <div className="row">
-                                    <div className="col-md-2 mb-5 mr-5">                      
-                                        <div className="card text-white" style={{width: '10rem', borderColor:'white', backgroundColor:"#E1067B"}}>                
-                                            <img src="https://timedotcom.files.wordpress.com/2014/07/301386_full1.jpg" className="card-img-top cardHome img-fluid" alt="..." />                               
-                                        </div>                                              
-                                    </div>
-                                    <div className="col-md-8">
-                                        <h5>Tittle : Harry Potter</h5>
-                                        <p>Category : Novel</p>
-                                        <p>Description : Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate consequatur quaerat, quasi sint sunt quibusdam saepe eligendi impedit possimus ipsa? Obcaecati voluptatum possimus, asperiores eveniet itaque reprehenderit aliquam culpa cumque.</p>                                        
-                                    </div>
-                                    <div className="col-lg-1 text-center">
-                                        <i className="fa fa-trash fa-3x" style={{cursor:"pointer"}} aria-hidden="true" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-3">
-                        <div className="card text-white bg-primary mb-3 text-center" style={{maxWidth: '18rem'}}>
-                            <div className="card-header">ID KTP</div>
-                            <div className="card-body mt-3">
-                                <h5 className="card-title" style={{color:'yellow'}}>Penalty : Rp.0</h5>
-                                <input type="button" className="btn btn-danger mb-3" value="Returned" />                                
-                                <div className="alert alert-danger text-center" role="alert">
-                                <p className="card-text">books must be returned before :</p>
-                                    DD/MM/YY
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true
+    };
+  }
+
+  componentDidMount() {
+    this.getAllBorrow().then(loanList => {
+      this.setState({ loanList, loading: false });
+    });
+  }
+
+  getAllBorrow = async () => {
+    await this.props.dispatch(getAllBorrow());
+  };
+
+  penalty = () => {    
+    let penalty = 0
+    let expired = this.props.Borrow.loanList[0].date_returned.split('T')[0].slice(-2)
+    let date = this.props.Borrow.loanList[0].borrow_date.split('T')[0].slice(-2)
+    if(expired > date) {
+      penalty += 2000
+      console.log(expired);
+      console.log(date);
+      
+    } 
+    return penalty
+  } 
+
+  renderLoanJsx = () => {
+    let jsx = this.props.Borrow.loanList.map(val => {
+      return (
+        <tr key={val.id_borrow}>
+          <th>{val.ktp}</th>
+          <td>
+            <img
+              src={val.img}
+              alt=""
+              style={{ width: "60px", borderRadius: "12px", height: "96px" }}
+            />
+          </td>
+          <td>{val.title}</td>
+          <td>{val.borrow_date.split('T')[0]}</td>
+          <td>{val.date_returned.split('T')[0]}</td>
+          <td>Rp. {this.penalty()}</td>
+          <td>
+            <input
+              type="button"
+              className="btn btn-outline-danger btn-sm"
+              value="Returned"
+            />
+          </td>
+        </tr>
+      );
+    });
+    return jsx;
+  };
+
+  render() {
+    console.log("batas");
+    console.log(this.props.Borrow.loanList);
+    return (
+      <div className="container mt-5">
+        <div className="row justify-content-center mb-3">
+          <h3>Loan List</h3>
+        </div>
+        <table className="table table-hover table-dark text-center">
+          <thead>
+            <tr>
+              <th scope="col">ID Card</th>
+              <th scope="col">Image</th>
+              <th scope="col">Book Title</th>
+              <th scope="col">Loan Date</th>
+              <th scope="col">Expired Date</th>
+              <th scope="col">Penalty</th>
+              <th scope="col">Handle</th>
+            </tr>
+          </thead>
+          {this.state.loading ? (
+            <tbody >LOADING...</tbody>
+          ) : (
+            <tbody>{this.renderLoanJsx()}</tbody>
+          )}
+        </table>
+      </div>
+    );
+  }
 }
 
-export default Loan;
+const mapStateToProps = state => {
+  return {
+    Borrow: state.Borrow
+  };
+};
+
+export default connect(mapStateToProps)(Loan);

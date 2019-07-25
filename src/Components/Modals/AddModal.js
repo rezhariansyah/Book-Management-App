@@ -16,8 +16,7 @@ class AddModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false,
-      book: []
+      modal: false
     };
 
     this.toggle = this.toggle.bind(this);
@@ -36,15 +35,14 @@ class AddModal extends React.Component {
       description: this.state.description,
       img: this.state.img,
       id_category: this.refs.selected.value
-    }
+    };
     swal({
       title: "Add Book Success",
       text: "Please refresh the page!",
       icon: "success",
       button: "gotcha!!!"
     });
-    
-    
+
     await this.props.dispatch(addBook(data));
     this.setState(prevState => ({
       modal: !prevState.modal
@@ -52,11 +50,7 @@ class AddModal extends React.Component {
     console.log(this.state.book);
   };
 
-  
-
   render() {
-
-
     return (
       <div>
         <input
@@ -99,7 +93,7 @@ class AddModal extends React.Component {
                     Options
                   </label>
                 </div>
-                <select className="custom-select" ref="selected" >
+                <select className="custom-select" ref="selected">
                   <option selected>Choose...</option>
                   <option
                     value={1}

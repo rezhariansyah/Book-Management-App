@@ -153,16 +153,33 @@ const Book = (state = initialState, action) => {
         isRejected: true
       };
     case "ADD_BOOK_FULFILLED":
-      // console.log('xxxxxxxx');
-      // console.log(...state.bookList);
-      // console.log(action.payload.data.result);
-      
       return {
         ...state,
         isLoading: false,
         isFulfilled: true,
         bookList: [...state.bookList, action.payload.data.result]
-        // bookList: action.payload.data.result
+      };
+    //DELETE BOOK
+    case "DELETE_BOOK_PENDING":
+      return {
+        ...state,
+        isLoading: true,
+        isFulfilled: false,
+        isRejected: false
+      };
+    case "DELETE_BOOK_REJECTED":
+      return {
+        ...state,
+        isLoading: false,
+        isRejected: true
+      };
+    case "DELETE_BOOK_FULFILLED":
+      console.log(action.payload.data);
+      return {
+        ...state,
+        isLoading: false,
+        isFulfilled: true,
+        bookList: action.payload.data.result
       };
     default:
       return state;

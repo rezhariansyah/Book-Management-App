@@ -21,10 +21,14 @@ class DateExpired extends React.Component {
   }
  
   render() {
+    console.log(this.props);
+    
     return (
-      <DatePicker
-        selected={this.state.startDate}
-        onChange={this.handleChange}
+      <DatePicker className="form-control"
+        selected={this.props.date_returned}
+        // onChange={this.handleChange}
+        id="date_returned"
+        onChange={this.props.getExpired}
       />
     );
   }

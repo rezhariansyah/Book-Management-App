@@ -4,6 +4,9 @@ import BorrowModal from "../../Components/Modals/BorrowModal";
 import EditModal from "../../Components/Modals/EditModal";
 import Axios from "axios";
 import urlApi from "../../Support/API/urlAPI";
+import swal from "sweetalert";
+import { connect } from "react-redux";
+import { deleteBook } from "../../Publics/Actions/Book";
 
 class BookDetail extends Component {
   state = {
@@ -18,24 +21,37 @@ class BookDetail extends Component {
     var idUrl = this.props.match.params.id;
     Axios.get(urlApi + "/book/" + idUrl)
       .then(res => {
-        this.setState({ book: res.data.result });
+        this.setState({ book: res.data.result[0] });
       })
       .catch(err => {
         console.log(err);
       });
   };
 
+  deleteBook = () => {
+    let id = this.state.book.id_book;
+    swal({
+      title: "Are you sure?",
+      text:
+        "Once deleted, you will not be able to recover this imaginary file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(async willDelete => {
+      if (willDelete) {
+        await this.props.dispatch(deleteBook(id));
+        swal("Poof! Your imaginary file has been deleted!", {
+          icon: "success"
+        }).then(function() {
+          window.location = "/";
+        });
+      }
+    });
+  };
+
   render() {
-    let {
-      title,
-      writer,
-      description,
-      create_at,
-      status,
-      category,
-      shelf,
-      img
-    } = this.state.book;
+    let { title, description, status, category, img } = this.state.book;
+    
     return (
       <div>
         <div className="jumbotron" style={{ backgroundImage: `url(${img})` }}>
@@ -46,9 +62,10 @@ class BookDetail extends Component {
                   type="button"
                   className="btn btn-outline-danger btn-sm mr-2 mb-2"
                   value="Delete"
+                  onClick={() => this.deleteBook()}
                 />
-                <EditModal book={this.state.book}/>
-                <BorrowModal />
+                <EditModal book={this.state.book} />
+                <BorrowModal book={this.state.book} />
               </div>
             </div>
           </div>
@@ -72,7 +89,25 @@ class BookDetail extends Component {
               </p>
               <p>
                 <b>Status Book : </b>
-                {status ? "Available" : "Borrowed"}
+                {status ? (
+                  <h6 style={{ display: "inline" }}>
+                    <span
+                      style={{ padding: "4px" }}
+                      className="badge-success rounded-pill"
+                    >
+                      &nbsp;Available&nbsp;
+                    </span>
+                  </h6>
+                ) : (
+                  <h6 style={{ display: "inline" }}>
+                    <span
+                      style={{ padding: "4px" }}
+                      className="badge-danger rounded-pill"
+                    >
+                      &nbsp;Borrowed&nbsp;
+                    </span>
+                  </h6>
+                )}
               </p>
               <p>{description}</p>
             </div>
@@ -83,4 +118,10 @@ class BookDetail extends Component {
   }
 }
 
-export default BookDetail;
+const mapStateToProps = state => {
+  return {
+    Book: state.Book
+  };
+};
+
+export default connect(mapStateToProps)(BookDetail);

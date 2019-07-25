@@ -20,3 +20,9 @@
     background-size: cover; 
     background-position: center;
 }
+
+.span {
+    position: relative;
+    top : 0px;
+    right: 0px;
+}
