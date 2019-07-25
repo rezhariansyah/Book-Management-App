@@ -46,11 +46,16 @@ export const updateBook = (id, data) => {
 
 //ADD BOOK
 export const addBook = (book) => {
-    console.log("action")
-    console.log(book);
-    
     return {
         type : "ADD_BOOK",
         payload : Axios.post(urlApi +'/book', book)
+    }
+}
+
+//DELETE BOOK
+export const deleteBook = (id) => {
+    return {
+        type : "DELETE_BOOK",
+        payload : Axios.delete(urlApi +`/book/${id}`)
     }
 }
