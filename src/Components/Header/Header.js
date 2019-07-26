@@ -52,35 +52,39 @@ class Header extends React.Component {
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
-              <NavItem style={{ color: "white" }} className="mt-2">
+              <NavItem style={{ color: "white" }} className="mt-2 mr-2">
                 {localStorage.fullname ? localStorage.fullname : "Guest"}
               </NavItem>
-              <div className="vl mt-2 ml-2 mr-2" />
-              <Link to="/loan">
-                <NavItem>
-                  <NavLink className="headers">
-                    <i class="fa fa-leanpub headers" aria-hidden="true" />
-                  </NavLink>
-                </NavItem>
-              </Link>
-              <div className="vl mt-2 ml-2 mr-2" />
+
+              {localStorage.id_user ? (
+                <Link to="/loan">
+                  <NavItem>
+                    <NavLink className="headers ml-2 mr-2">
+                      <i class="fa fa-leanpub headers" aria-hidden="true" />
+                    </NavLink>
+                  </NavItem>
+                </Link>
+              ) : (
+                ""
+              )}
               <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret className="headers">
-                  Sign in
-                </DropdownToggle>
+                {localStorage.id_user ? (
+                  <NavItem onClick={this.logout} style={{cursor:"pointer", color:"white"}} className="mt-2 mr-2 ml-2" >Log out</NavItem>
+                ) : (
+                  <DropdownToggle nav caret className="headers">
+                    Sign In
+                  </DropdownToggle>
+                )}
+
                 <DropdownMenu right>
-                  {localStorage.id_user ? (
-                    <DropdownItem onClick={this.logout}>Log Out</DropdownItem>
-                  ) : (
-                    <div>
-                      <Link to="/login">
-                        <DropdownItem>Login</DropdownItem>
-                      </Link>
-                      <Link to="/register">
-                        <DropdownItem>Register</DropdownItem>
-                      </Link>
-                    </div>
-                  )}
+                  <div>
+                    <Link to="/login">
+                      <DropdownItem>Login</DropdownItem>
+                    </Link>
+                    <Link to="/register">
+                      <DropdownItem>Register</DropdownItem>
+                    </Link>
+                  </div>
                 </DropdownMenu>
               </UncontrolledDropdown>
             </Nav>
