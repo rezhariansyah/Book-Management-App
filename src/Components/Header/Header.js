@@ -14,8 +14,9 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import "../../Support/Styles/header.css";
+import { connect } from "react-redux";
 
-export default class Header extends React.Component {
+class Header extends React.Component {
   constructor(props) {
     super(props);
 
@@ -29,7 +30,7 @@ export default class Header extends React.Component {
       isOpen: !this.state.isOpen
     });
   }
-  render() {
+  render() {  
     return (
       <div>
         <Navbar style={{ backgroundColor: "black" }} dark expand="md">
@@ -39,6 +40,10 @@ export default class Header extends React.Component {
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
+              <NavItem style={{ color: "white" }} className="mt-2">
+                guest
+              </NavItem>
+              <div className="vl mt-2 ml-2 mr-2" />
               <Link to="/loan">
                 <NavItem>
                   <NavLink className="headers">
@@ -67,3 +72,11 @@ export default class Header extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    user: state.User
+  };
+};
+
+export default connect(mapStateToProps)(Header);

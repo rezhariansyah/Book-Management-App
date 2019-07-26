@@ -14,3 +14,11 @@ export const addLoan = (data) => {
         payload : Axios.post(urlApi +'/borrow', data)
     }
 }
+
+// DELETE LOAN WITH UPDATE BOOK
+export const returnLoan = (idBorrow) => {
+    return {
+        type : "RETURN_LOAN",
+        payload : Axios.delete(urlApi + `/borrow/${idBorrow}`)
+    }
+}

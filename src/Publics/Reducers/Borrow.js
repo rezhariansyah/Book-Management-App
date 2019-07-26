@@ -50,6 +50,28 @@ const Loan = (state = initialState, action) => {
         isFulfilled: true,
         loanList: [...state.loanList, action.payload.data.result]
       };
+    // RETURN LOAN
+    case "RETURN_LOAN_PENDING":
+      return {
+        ...state,
+        isLoading: true,
+        isFulfilled: false,
+        isRejected: false
+      };
+    case "RETURN_LOAN_REJECTED":
+      return {
+        ...state,
+        isLoading: false,
+        isRejected: true
+      };
+    case "RETURN_LOAN_FULFILLED":
+      console.log(action.payload.data);
+      return {
+        ...state,
+        isLoading: false,
+        isFulfilled: true,
+        loanList: action.payload.data.result
+      };
     default:
       return state;
   }
