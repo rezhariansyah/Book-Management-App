@@ -12,11 +12,13 @@ class Login extends Component {
     };
     console.log(data);
     await this.props.dispatch(userLogin(data));
-    swal({
+    await swal({
       title: `Welcome ${this.state.email}`,
       icon: "success"
+    })
+    .then(function() {
+      window.location = "/";
     });
-    this.props.history.push("/");
   };
 
   render() {

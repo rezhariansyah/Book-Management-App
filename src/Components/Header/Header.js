@@ -15,6 +15,7 @@ import {
 import { Link } from "react-router-dom";
 import "../../Support/Styles/header.css";
 import { connect } from "react-redux";
+import swal from "sweetalert";
 
 class Header extends React.Component {
   constructor(props) {
@@ -30,7 +31,18 @@ class Header extends React.Component {
       isOpen: !this.state.isOpen
     });
   }
-  render() {  
+
+  logout = async () => {
+    localStorage.clear();
+    await swal({
+      title: `Logout Success`,
+      icon: "success"
+    }).then(function() {
+      window.location = "/";
+    });
+  };
+
+  render() {
     return (
       <div>
         <Navbar style={{ backgroundColor: "black" }} dark expand="md">
@@ -41,7 +53,7 @@ class Header extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem style={{ color: "white" }} className="mt-2">
-                guest
+                {localStorage.fullname ? localStorage.fullname : "Guest"}
               </NavItem>
               <div className="vl mt-2 ml-2 mr-2" />
               <Link to="/loan">
@@ -57,12 +69,18 @@ class Header extends React.Component {
                   Sign in
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <Link to="/login">
-                    <DropdownItem>Login</DropdownItem>
-                  </Link>
-                  <Link to="/register">
-                    <DropdownItem>Register</DropdownItem>
-                  </Link>
+                  {localStorage.id_user ? (
+                    <DropdownItem onClick={this.logout}>Log Out</DropdownItem>
+                  ) : (
+                    <div>
+                      <Link to="/login">
+                        <DropdownItem>Login</DropdownItem>
+                      </Link>
+                      <Link to="/register">
+                        <DropdownItem>Register</DropdownItem>
+                      </Link>
+                    </div>
+                  )}
                 </DropdownMenu>
               </UncontrolledDropdown>
             </Nav>
