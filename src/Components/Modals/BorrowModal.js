@@ -25,23 +25,38 @@ class BorrowModal extends React.Component {
   }
 
   addLoan = async () => {
-    let data = {
-      ktp: this.state.ktp,
-      id_book: this.props.book.id_book,
-      date_returned: this.state.date_returned
-    };
-    console.log(data);
+    let token = localStorage.getItem("token");
+    if (token) {
+      let data = {
+        ktp: this.state.ktp,
+        id_book: this.props.book.id_book,
+        date_returned: this.state.date_returned,
+        token: token
+      };
+      
 
-    swal({
-      title: "Add to Loan Success",
-      icon: "success",
-      button: "gotcha!!!"
-    });
-
-    await this.props.dispatch(addLoan(data));
-    this.setState(prevState => ({
-      modal: !prevState.modal
-    }));
+      swal({
+        title: "Add to Loan Success",
+        icon: "success",
+        button: "gotcha!!!"
+      }).then(function() {
+        window.location = "/loan";
+      });
+      console.log(data);
+      await this.props.dispatch(addLoan(data));
+      this.setState(prevState => ({
+        modal: !prevState.modal
+      }));
+      
+    } else {
+      swal({
+        title: "you need to login first",
+        icon: "warning",
+        button: "okay"
+      }).then(function() {
+        window.location = "/login";
+      });
+    }
   };
 
   getExpired = e => {
@@ -75,9 +90,7 @@ class BorrowModal extends React.Component {
           toggle={this.toggle}
           className={this.props.className}
         >
-          <ModalHeader toggle={this.toggle}>
-            User Detail
-          </ModalHeader>
+          <ModalHeader toggle={this.toggle}>User Detail</ModalHeader>
           <ModalBody>
             <Form>
               <Label>ID Card</Label>

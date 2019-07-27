@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getAllBorrow } from "../../Publics/Actions/Borrow";
+import { getAllBorrow, returnLoan } from "../../Publics/Actions/Borrow";
+import swal from 'sweetalert';
 
 class Loan extends Component {
   constructor(props) {
@@ -20,18 +21,40 @@ class Loan extends Component {
     await this.props.dispatch(getAllBorrow());
   };
 
-  penalty = () => {    
-    let penalty = 0
-    let expired = this.props.Borrow.loanList[0].date_returned.split('T')[0].slice(-2)
-    let date = this.props.Borrow.loanList[0].borrow_date.split('T')[0].slice(-2)
-    if(expired > date) {
-      penalty += 2000
-      console.log(expired);
-      console.log(date);
-      
-    } 
-    return penalty
+  penalty = (id_borrow, borrow, date_returned) => {    
+    let id = id_borrow
+    let expired = parseInt(date_returned.split('T')[0].slice(-2))
+    let pinjam = parseInt(borrow.split('T')[0].slice(-2))
+    let total = 0
+
+    console.log(id, pinjam, expired)
+
+    for(let i=pinjam ; i<expired ; i++) {
+      total += 2000
+    }
+
+    return total
   } 
+
+  retured = (id_borrow) => {
+    let id = id_borrow
+
+    swal({
+      title: "Are you sure?",
+      text:
+        "Once deleted, you will not be able to recover this imaginary file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(async willDelete => {
+      if (willDelete) {
+        await this.props.dispatch(returnLoan(id));
+        swal("Poof! Your imaginary file has been deleted!", {
+          icon: "success"
+        })
+      }
+    });
+  }
 
   renderLoanJsx = () => {
     let jsx = this.props.Borrow.loanList.map(val => {
@@ -48,12 +71,13 @@ class Loan extends Component {
           <td>{val.title}</td>
           <td>{val.borrow_date.split('T')[0]}</td>
           <td>{val.date_returned.split('T')[0]}</td>
-          <td>Rp. {this.penalty()}</td>
+          <td>Rp. {this.penalty(val.id_borrow, val.borrow_date, val.date_returned)}</td>
           <td>
             <input
               type="button"
               className="btn btn-outline-danger btn-sm"
               value="Returned"
+              onClick={() => this.retured(val.id_borrow)}
             />
           </td>
         </tr>
