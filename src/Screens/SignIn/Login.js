@@ -46,7 +46,7 @@ class Login extends Component {
                     placeholder="Email"
                     onChange={e => this.setState({ email: e.target.value })}
                   />
-                  <span className="focus-input100" data-placeholder="" />
+                  <span className="focus-input100" data-placeholder="📧" />
                 </div>
                 <div
                   className="wrap-input100 validate-input"
@@ -59,7 +59,7 @@ class Login extends Component {
                     placeholder="Password"
                     onChange={e => this.setState({ password: e.target.value })}
                   />
-                  <span className="focus-input100" data-placeholder="" />
+                  <span className="focus-input100" data-placeholder="🔑" />
                 </div>
                 <div className="row justify-content-center mt-3 baru">
                   <input

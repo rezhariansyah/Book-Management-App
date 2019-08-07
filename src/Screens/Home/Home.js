@@ -177,7 +177,7 @@ class Home extends Component {
               <h2 className="display-4">
                 Welcome to <span style={{ fontWeight: "bolder" }}>Library</span>
               </h2>
-              <p>
+              <p style={{ color: "white" }}>
                 “There is no friend as loyal as a book.” <br /> - Ernest
                 Hemingway
               </p>

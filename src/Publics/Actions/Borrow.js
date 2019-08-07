@@ -2,9 +2,13 @@ import Axios from "axios";
 import urlApi from "../../Support/API/urlAPI";
 
 export const getAllBorrow = () => {
+  let data = {
+    id_user: localStorage.id_user,
+    role: localStorage.role
+  };
   return {
     type: "GET_ALL_BORROW",
-    payload: Axios.get(urlApi + "/borrow/allBorrow", null, {
+    payload: Axios.post(urlApi + "/borrow/allBorrow", data, {
       headers: {
         authorization: "welcometoapp",
         "x-access-token": localStorage.token,

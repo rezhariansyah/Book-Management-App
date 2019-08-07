@@ -28,12 +28,11 @@ class BorrowModal extends React.Component {
     let token = localStorage.getItem("token");
     if (token) {
       let data = {
-        ktp: this.state.ktp,
         id_book: this.props.book.id_book,
         date_returned: this.state.date_returned,
+        id_user : localStorage.id_user,
         token: token
       };
-      
 
       swal({
         title: "Add to Loan Success",
@@ -47,7 +46,6 @@ class BorrowModal extends React.Component {
       this.setState(prevState => ({
         modal: !prevState.modal
       }));
-      
     } else {
       swal({
         title: "you need to login first",
@@ -99,7 +97,7 @@ class BorrowModal extends React.Component {
                 className="form-control"
                 placeholder="KTP / SIM"
                 id="ktp"
-                onChange={e => this.setState({ ktp: e.target.value })}
+                value={localStorage.ktp}
               />
               <Label className="mt-3">Book ID</Label>
               <input

@@ -48,7 +48,7 @@ class Register extends Component {
                     placeholder="Email"
                     onChange={e => this.setState({ email: e.target.value })}
                   />
-                  <span className="focus-input100" data-placeholder="" />
+                  <span className="focus-input100" data-placeholder="📧" />
                 </div>
                 <div className="wrap-input100 validate-input">
                   <input
@@ -58,17 +58,17 @@ class Register extends Component {
                     placeholder="Full Name"
                     onChange={e => this.setState({ fullname: e.target.value })}
                   />
-                  <span className="focus-input100" data-placeholder="" />
+                  <span className="focus-input100" data-placeholder="🙈" />
                 </div>
                 <div className="wrap-input100 validate-input">
                   <input
                     className="input100"
-                    type="text"
+                    type="password"
                     name="pass"
                     placeholder="Password"
                     onChange={e => this.setState({ password: e.target.value })}
                   />
-                  <span className="focus-input100" data-placeholder="" />
+                  <span className="focus-input100" data-placeholder="🔑" />
                 </div>
                 <div className="row justify-content-center mt-3 baru">
                   <input
