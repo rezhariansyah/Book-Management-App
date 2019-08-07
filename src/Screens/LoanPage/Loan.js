@@ -57,10 +57,10 @@ class Loan extends Component {
   }
 
   renderLoanJsx = () => {
-    let jsx = this.props.Borrow.loanList.map(val => {
+    let jsx = this.props.Borrow.loanList.map((val, index) => {
       return (
         <tr key={val.id_borrow}>
-          <th>{val.ktp}</th>
+          <th>{index + 1}</th>
           <td>
             <img
               src={val.img}
@@ -97,7 +97,7 @@ class Loan extends Component {
         <table className="table table-hover table-dark text-center">
           <thead>
             <tr>
-              <th scope="col">ID Card</th>
+              <th scope="col">No</th>
               <th scope="col">Image</th>
               <th scope="col">Book Title</th>
               <th scope="col">Loan Date</th>

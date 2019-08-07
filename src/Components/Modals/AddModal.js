@@ -53,14 +53,26 @@ class AddModal extends React.Component {
   render() {
     return (
       <div>
-        <input
-          type="button"
-          onClick={this.toggle}
-          className="btn btn-outline-success mb-2"
-          value="Add Book"
-        >
-          {this.props.buttonLabel}
-        </input>
+        {localStorage.role == "admin" ? (
+          <input
+            type="button"
+            onClick={this.toggle}
+            className="btn btn-outline-success mb-2"
+            value="Add Book"
+          >
+            {this.props.buttonLabel}
+          </input>
+        ) : (
+          <input
+            type="button"
+            onClick={this.toggle}
+            className="btn btn-outline-success mb-2"
+            value="Donate"
+          >
+            {this.props.buttonLabel}
+          </input>
+        )}
+
         <Modal
           isOpen={this.state.modal}
           toggle={this.toggle}

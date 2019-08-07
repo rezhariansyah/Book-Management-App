@@ -27,11 +27,14 @@ const Login = (state = initialState, action) => {
       const fullname = action.payload.data.result.fullname;
       const status = action.payload.data.result.status;
       const role = action.payload.data.result.role;
+      const ktp = action.payload.data.result.ktp;
       localStorage.setItem("token", token);
       localStorage.setItem("id_user", id_user);
       localStorage.setItem("fullname", fullname);
       localStorage.setItem("status", status);
       localStorage.setItem("role", role);
+      localStorage.setItem("ktp", ktp);
+      console.log("roleeee",role)
       return {
         ...state,
         isLoading: false,
