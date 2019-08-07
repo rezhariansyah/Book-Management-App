@@ -30,7 +30,7 @@ class BorrowModal extends React.Component {
       let data = {
         id_book: this.props.book.id_book,
         date_returned: this.state.date_returned,
-        id_user : localStorage.id_user,
+        id_user: localStorage.id_user,
         token: token
       };
 

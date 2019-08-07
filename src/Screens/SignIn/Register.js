@@ -9,7 +9,8 @@ class Register extends Component {
     let data = {
       email: this.state.email,
       fullname: this.state.fullname,
-      password: this.state.password
+      password: this.state.password,
+      ktp : this.state.ktp
     }
     console.log(data)
     await this.props.dispatch(registerUser(data))
@@ -59,6 +60,16 @@ class Register extends Component {
                     onChange={e => this.setState({ fullname: e.target.value })}
                   />
                   <span className="focus-input100" data-placeholder="🙈" />
+                </div>
+                <div className="wrap-input100 validate-input">
+                  <input
+                    className="input100"
+                    type="text"
+                    name="ktp"
+                    placeholder="ID Card"
+                    onChange={e => this.setState({ ktp: e.target.value })}
+                  />
+                  <span className="focus-input100" data-placeholder="💳" />
                 </div>
                 <div className="wrap-input100 validate-input">
                   <input

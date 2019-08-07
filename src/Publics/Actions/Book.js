@@ -4,7 +4,7 @@ import urlApi from "../../Support/API/urlAPI";
 export const getAllBooks = () => {
     return {
         type : "GET_ALL_BOOKS",
-        payload : Axios.get(urlApi + '/book/allBooks')
+        payload : Axios.get(urlApi + '/book')
     }
 }
 
@@ -36,6 +36,15 @@ export const getAllBiography = () => {
         payload : Axios.get(urlApi + '/book/biography')
     }
 }
+
+// get all data users
+export const getDataUser = () => {
+    return {
+        type : "GET_ALL_USER",
+        payload : Axios.get(urlApi + '/user')
+    }
+}
+
 // SEARCH END ------------------------------------------------
 export const updateBook = (id, data) => {
     return {
