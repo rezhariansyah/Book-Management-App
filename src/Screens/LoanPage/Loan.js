@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getAllBorrow, returnLoan } from "../../Publics/Actions/Borrow";
+import { getDataUser } from "../../Publics/Actions/Book";
 import swal from 'sweetalert';
 
 class Loan extends Component {
@@ -15,6 +16,7 @@ class Loan extends Component {
     this.getAllBorrow().then(loanList => {
       this.setState({ loanList, loading: false });
     });
+    this.getAllUsers()
   }
 
   getAllBorrow = async () => {
@@ -56,11 +58,17 @@ class Loan extends Component {
     });
   }
 
+  getAllUsers = async () => {
+    await this.props.dispatch(getDataUser());
+  }
+
+
   renderLoanJsx = () => {
+    console.log("userlist",this.props.Book.userList)
     let jsx = this.props.Borrow.loanList.map((val, index) => {
       return (
         <tr key={val.id_borrow}>
-          <th>{index + 1}</th>
+          <th>{val.fullname}<br/>{val.ktp}</th>
           <td>
             <img
               src={val.img}
@@ -97,7 +105,7 @@ class Loan extends Component {
         <table className="table table-hover table-dark text-center">
           <thead>
             <tr>
-              <th scope="col">No</th>
+              <th scope="col">Users</th>
               <th scope="col">Image</th>
               <th scope="col">Book Title</th>
               <th scope="col">Loan Date</th>
@@ -119,7 +127,8 @@ class Loan extends Component {
 
 const mapStateToProps = state => {
   return {
-    Borrow: state.Borrow
+    Borrow: state.Borrow,
+    Book: state.Book
   };
 };
 

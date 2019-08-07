@@ -2,7 +2,8 @@ const initialState = {
   bookList: null,
   isLoading: false,
   isFulfilled: false,
-  isRejected: false
+  isRejected: false,
+  userList : []
 };
 
 const Book = (state = initialState, action) => {
@@ -27,6 +28,28 @@ const Book = (state = initialState, action) => {
         isLoading: false,
         isFulfilled: true,
         bookList: action.payload.data.result
+      };
+    //data user
+    case "GET_ALL_USER_PENDING":
+      return {
+        ...state,
+        isLoading: true,
+        isFulfilled: false,
+        isRejected: false
+      };
+    case "GET_ALL_USER_REJECTED":
+      return {
+        ...state,
+        isLoading: false,
+        isRejected: true
+      };
+    case "GET_ALL_USER_FULFILLED":
+      console.log("BABABA",action.payload.data.result);
+      return {
+        ...state,
+        isLoading: false,
+        isFulfilled: true,
+        userList: action.payload.data.result
       };
     // GET NOVEL
     case "GET_ALL_NOVEL_PENDING":
