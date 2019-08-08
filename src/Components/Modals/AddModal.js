@@ -16,11 +16,20 @@ class AddModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false
+      modal: false,
+      file: null
     };
 
     this.toggle = this.toggle.bind(this);
+    this.onChangeFile = this.onChangeFile.bind(this);
   }
+
+  onChangeFile = e => {
+    console.log(e.target.files[0]);
+    this.setState({
+      file: e.target.files[0]
+    });
+  };
 
   toggle() {
     this.setState(prevState => ({
@@ -29,25 +38,26 @@ class AddModal extends React.Component {
   }
 
   addBook = async () => {
-    let data = {
-      title: this.state.title,
-      writer: this.state.writer,
-      description: this.state.description,
-      img: this.state.img,
-      id_category: this.refs.selected.value
-    };
+    const dataFile = new FormData();
+    dataFile.append("img", this.state.file);
+    dataFile.append("title", this.state.title);
+    dataFile.append("writer", this.state.writer);
+    dataFile.append("description", this.state.description);
+    dataFile.append("id_category", this.refs.selected.value);
+
+    await this.props.dispatch(addBook(dataFile));
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
+
     swal({
       title: "Add Book Success",
       text: "Please refresh the page!",
       icon: "success",
       button: "gotcha!!!"
+    }).then(function() {
+      window.location = "/";
     });
-
-    await this.props.dispatch(addBook(data));
-    this.setState(prevState => ({
-      modal: !prevState.modal
-    }));
-    console.log(this.state.book);
   };
 
   render() {
@@ -139,10 +149,10 @@ class AddModal extends React.Component {
               </div>
               <Label className="mt-2">Cover Image</Label>
               <input
-                type="text"
+                type="file"
                 className="form-control"
                 id="img"
-                onChange={e => this.setState({ img: e.target.value })}
+                onChange={this.onChangeFile}
               />
               <Label className="mt-2">description</Label>
               <input

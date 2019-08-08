@@ -54,10 +54,10 @@ export const updateBook = (id, data) => {
 }
 
 //ADD BOOK
-export const addBook = (book) => {
+export const addBook = (dataFile) => {
     return {
         type : "ADD_BOOK",
-        payload : Axios.post(urlApi +'/book', book)
+        payload : Axios.post(urlApi +'/book', dataFile)
     }
 }
 

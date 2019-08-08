@@ -76,7 +76,10 @@ class BookDetail extends Component {
                     <EditModal book={this.state.book} />
                   </div>
                 )}
-                <BorrowModal book={this.state.book} />
+                {
+                  status ? <BorrowModal book={this.state.book} /> : ""
+                }
+                
               </div>
             </div>
           </div>
