@@ -11,6 +11,7 @@ import {
   getAllScience,
   getAllBiography
 } from "../../Publics/Actions/Book";
+import Activity from "../../Components/ActivityIndicator/dots";
 
 class Home extends Component {
   constructor(props) {
@@ -85,7 +86,10 @@ class Home extends Component {
               )}
 
               <div className="middle">
-                <BorrowModal book={val} />
+                {
+                  val.status ? <BorrowModal book={val} /> : ""
+                }
+                
                 <Link to={"/bookDetail/" + val.id_book}>
                   <div className="text">
                     <input
@@ -161,7 +165,7 @@ class Home extends Component {
     console.log(this.props.Book.bookList);
 
     if (this.state.loading) {
-      return "Loading...";
+      return <Activity/>;
     }
     return (
       <div className="wrap">

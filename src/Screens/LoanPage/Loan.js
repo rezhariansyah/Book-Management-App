@@ -1,8 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { getAllBorrow, returnLoan } from "../../Publics/Actions/Borrow";
 import { getDataUser } from "../../Publics/Actions/Book";
 import swal from 'sweetalert';
+import Unauthorized from "../ErrorTemplate/401Unauthorized";
+import ActivityLoan from "../../Components/ActivityIndicator/loanLoading";
 
 class Loan extends Component {
   constructor(props) {
@@ -29,9 +31,9 @@ class Loan extends Component {
     let pinjam = parseInt(borrow.split('T')[0].slice(-2))
     let total = 0
 
-    console.log(id, pinjam, expired)
+    console.log("tanggal pinjam",id, pinjam, expired)
 
-    for(let i=pinjam ; i<expired ; i++) {
+    for(let i=expired ; i<pinjam ; i++) {
       total += 2000
     }
 
@@ -95,10 +97,10 @@ class Loan extends Component {
   };
 
   render() {
-    console.log("batas");
-    console.log(this.props.Borrow.loanList);
     return (
-      <div className="container mt-5">
+      <Fragment>     
+      {
+        localStorage.token ? <div className="container mt-5">
         <div className="row justify-content-center mb-3">
           <h3>Loan List</h3>
         </div>
@@ -115,12 +117,15 @@ class Loan extends Component {
             </tr>
           </thead>
           {this.state.loading ? (
-            <tbody >LOADING...</tbody>
+            <td colspan="8" style={{height:"100px"}}><ActivityLoan/></td>
           ) : (
             <tbody>{this.renderLoanJsx()}</tbody>
           )}
         </table>
-      </div>
+      </div> : <Unauthorized/>
+      }
+      
+      </Fragment>
     );
   }
 }

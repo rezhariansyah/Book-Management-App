@@ -51,21 +51,35 @@ class BookDetail extends Component {
 
   render() {
     let { title, description, status, category, img } = this.state.book;
-    
+
     return (
       <div>
         <div className="jumbotron" style={{ backgroundImage: `url(${img})` }}>
           <div className="row">
             <div className="container">
               <div className="row">
-                <input
-                  type="button"
-                  className="btn btn-outline-danger btn-sm mr-2 mb-2"
-                  value="Delete"
-                  onClick={() => this.deleteBook()}
-                />
-                <EditModal book={this.state.book} />
-                <BorrowModal book={this.state.book} />
+                {localStorage.role == "user" ? (
+                  ""
+                ) : (
+                  <input
+                    type="button"
+                    className="btn btn-outline-danger btn-sm mr-2 mb-2"
+                    value="Delete"
+                    onClick={() => this.deleteBook()}
+                  />
+                )}
+
+                {localStorage.role == "user" ? (
+                  ""
+                ) : (
+                  <div>
+                    <EditModal book={this.state.book} />
+                  </div>
+                )}
+                {
+                  status ? <BorrowModal book={this.state.book} /> : ""
+                }
+                
               </div>
             </div>
           </div>
