@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { getAllBorrow, returnLoan } from "../../Publics/Actions/Borrow";
 import { getDataUser } from "../../Publics/Actions/Book";
 import swal from 'sweetalert';
+import Unauthorized from "../ErrorTemplate/401Unauthorized";
 
 class Loan extends Component {
   constructor(props) {
@@ -95,10 +96,10 @@ class Loan extends Component {
   };
 
   render() {
-    console.log("batas");
-    console.log(this.props.Borrow.loanList);
     return (
-      <div className="container mt-5">
+      <Fragment>     
+      {
+        localStorage.token ? <div className="container mt-5">
         <div className="row justify-content-center mb-3">
           <h3>Loan List</h3>
         </div>
@@ -120,7 +121,10 @@ class Loan extends Component {
             <tbody>{this.renderLoanJsx()}</tbody>
           )}
         </table>
-      </div>
+      </div> : <Unauthorized/>
+      }
+      
+      </Fragment>
     );
   }
 }
