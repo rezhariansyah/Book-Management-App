@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { getAllBorrow, returnLoan } from "../../Publics/Actions/Borrow";
 import { getDataUser } from "../../Publics/Actions/Book";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 import Unauthorized from "../ErrorTemplate/401Unauthorized";
 import ActivityLoan from "../../Components/ActivityIndicator/loanLoading";
 
@@ -18,30 +18,30 @@ class Loan extends Component {
     this.getAllBorrow().then(loanList => {
       this.setState({ loanList, loading: false });
     });
-    this.getAllUsers()
+    this.getAllUsers();
   }
 
   getAllBorrow = async () => {
     await this.props.dispatch(getAllBorrow());
   };
 
-  penalty = (id_borrow, borrow, date_returned) => {    
-    let id = id_borrow
-    let expired = parseInt(date_returned.split('T')[0].slice(-2))
-    let pinjam = parseInt(borrow.split('T')[0].slice(-2))
-    let total = 0
+  penalty = (id_borrow, borrow, date_returned) => {
+    let id = id_borrow;
+    let expired = parseInt(date_returned.split("T")[0].slice(-2));
+    let pinjam = parseInt(borrow.split("T")[0].slice(-2));
+    let total = 0;
 
-    console.log("tanggal pinjam",id, pinjam, expired)
+    console.log("tanggal pinjam", id, pinjam, expired);
 
-    for(let i=expired ; i<pinjam ; i++) {
-      total += 2000
+    for (let i = expired; i < pinjam; i++) {
+      total += 2000;
     }
 
-    return total
-  } 
+    return total;
+  };
 
-  retured = (id_borrow) => {
-    let id = id_borrow
+  retured = id_borrow => {
+    let id = id_borrow;
 
     swal({
       title: "Are you sure?",
@@ -55,22 +55,25 @@ class Loan extends Component {
         await this.props.dispatch(returnLoan(id));
         swal("Poof! Your imaginary file has been deleted!", {
           icon: "success"
-        })
+        });
       }
     });
-  }
+  };
 
   getAllUsers = async () => {
     await this.props.dispatch(getDataUser());
-  }
-
+  };
 
   renderLoanJsx = () => {
-    console.log("userlist",this.props.Book.userList)
+    console.log("userlist", this.props.Book.userList);
     let jsx = this.props.Borrow.loanList.map((val, index) => {
       return (
         <tr key={val.id_borrow}>
-          <th>{val.fullname}<br/>{val.ktp}</th>
+          <th>
+            {val.fullname}
+            <br />
+            {val.ktp}
+          </th>
           <td>
             <img
               src={val.img}
@@ -79,17 +82,24 @@ class Loan extends Component {
             />
           </td>
           <td>{val.title}</td>
-          <td>{val.borrow_date.split('T')[0]}</td>
-          <td>{val.date_returned.split('T')[0]}</td>
-          <td>Rp. {this.penalty(val.id_borrow, val.borrow_date, val.date_returned)}</td>
+          <td>{val.borrow_date.split("T")[0]}</td>
+          <td>{val.date_returned.split("T")[0]}</td>
           <td>
-            <input
-              type="button"
-              className="btn btn-outline-danger btn-sm"
-              value="Returned"
-              onClick={() => this.retured(val.id_borrow)}
-            />
+            Rp.{" "}
+            {this.penalty(val.id_borrow, val.borrow_date, val.date_returned)}
           </td>
+          {localStorage.role == "user" ? (
+            ""
+          ) : (
+            <td>
+              <input
+                type="button"
+                className="btn btn-outline-danger btn-sm"
+                value="Returned"
+                onClick={() => this.retured(val.id_borrow)}
+              />
+            </td>
+          )}
         </tr>
       );
     });
@@ -98,33 +108,40 @@ class Loan extends Component {
 
   render() {
     return (
-      <Fragment>     
-      {
-        localStorage.token ? <div className="container mt-5">
-        <div className="row justify-content-center mb-3">
-          <h3>Loan List</h3>
-        </div>
-        <table className="table table-hover table-dark text-center">
-          <thead>
-            <tr>
-              <th scope="col">Users</th>
-              <th scope="col">Image</th>
-              <th scope="col">Book Title</th>
-              <th scope="col">Loan Date</th>
-              <th scope="col">Expired Date</th>
-              <th scope="col">Penalty</th>
-              <th scope="col">Handle</th>
-            </tr>
-          </thead>
-          {this.state.loading ? (
-            <td colspan="8" style={{height:"100px"}}><ActivityLoan/></td>
-          ) : (
-            <tbody>{this.renderLoanJsx()}</tbody>
-          )}
-        </table>
-      </div> : <Unauthorized/>
-      }
-      
+      <Fragment>
+        {localStorage.token ? (
+          <div className="container mt-5">
+            <div className="row justify-content-center mb-3">
+              <h3>Loan List</h3>
+            </div>
+            <table className="table table-hover table-dark text-center">
+              <thead>
+                <tr>
+                  <th scope="col">Users</th>
+                  <th scope="col">Image</th>
+                  <th scope="col">Book Title</th>
+                  <th scope="col">Loan Date</th>
+                  <th scope="col">Expired Date</th>
+                  <th scope="col">Penalty</th>
+                  {localStorage.role == "user" ? (
+                    ""
+                  ) : (
+                    <th scope="col">Handle</th>
+                  )}
+                </tr>
+              </thead>
+              {this.state.loading ? (
+                <td colspan="8" style={{ height: "100px" }}>
+                  <ActivityLoan />
+                </td>
+              ) : (
+                <tbody>{this.renderLoanJsx()}</tbody>
+              )}
+            </table>
+          </div>
+        ) : (
+          <Unauthorized />
+        )}
       </Fragment>
     );
   }
