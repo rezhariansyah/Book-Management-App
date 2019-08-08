@@ -11,24 +11,67 @@ import {
   getAllScience,
   getAllBiography
 } from "../../Publics/Actions/Book";
+import { getPagination } from "../../Publics/Actions/pagination";
 import Activity from "../../Components/ActivityIndicator/dots";
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true
+      loading: true,
+      numPage: 1,
+      Book: [],
+      sumPage: "",
+      Page : []
     };
   }
 
-  componentDidMount() {
-    this.getAllBooks().then(booklist => {
-      this.setState({ booklist, loading: false });
+  componentDidMount = async () => {
+    await this.props.dispatch(getAllBooks());
+    this.setState({leng:this.props.Book.bookList.length})
+    console.log(this.state.leng);
+    
+    this.getPagination().then(booklist => {
+      this.setState({ Page: this.props.Page, loading: false });
     });
+    
   }
+
+  previousPage = () => {
+    this.setState(
+      {
+        numPage: this.state.numPage - 1
+      },
+      () => {
+        this.getPagination().then(booklist => {
+          this.setState({ book: this.props.book, loading: false });
+        });
+      }
+    );
+  };
+
+  nextPage = () => {
+    this.setState(
+      {
+        numPage: this.state.numPage + 1
+      },
+      () => {
+        this.getPagination().then(bookList => {
+          this.setState({ book: this.props.book, loading: false });
+        });
+      }
+    );
+  };
+
+  getPagination = async () => {
+    await this.props.dispatch(getPagination(this.state.numPage));
+  };
 
   getAllBooks = async () => {
     await this.props.dispatch(getAllBooks());
+    this.setState({leng:this.props.Book.bookList.length})
+    console.log(this.state.leng);
+    
   };
 
   getAllNovel = async () => {
@@ -86,10 +129,8 @@ class Home extends Component {
               )}
 
               <div className="middle">
-                {
-                  val.status ? <BorrowModal book={val} /> : ""
-                }
-                
+                {val.status ? <BorrowModal book={val} /> : ""}
+
                 <Link to={"/bookDetail/" + val.id_book}>
                   <div className="text">
                     <input
@@ -162,10 +203,10 @@ class Home extends Component {
   };
 
   render() {
-    console.log(this.props.Book.bookList);
-
+    console.log(this.state.numPage)
+    const sum = Math.ceil(this.state.leng / 6)
     if (this.state.loading) {
-      return <Activity/>;
+      return <Activity />;
     }
     return (
       <div className="wrap">
@@ -238,6 +279,28 @@ class Home extends Component {
             </div>
           </div>
         </div>
+        <div className="row justify-content-center">
+        {this.state.numPage == 1 ? 
+          (<div className="col-md-6 text-right">
+          </div>) :
+          (<div className="col-md-6 text-center">
+            <input
+              type="button"
+              className="btn btn-outline-danger"
+              onClick={this.previousPage}
+              value="Previous"
+            />
+          </div>)}
+          {this.state.numPage == sum ?
+          (<div></div>) : (<div className="col-md-6 text-left">
+            <input
+              type="button"
+              className="btn btn-outline-primary"
+              onClick={this.nextPage}
+              value="Next"
+            />
+          </div>)}
+        </div>
       </div>
     );
   }
@@ -245,7 +308,8 @@ class Home extends Component {
 
 const mapStateToProps = state => {
   return {
-    Book: state.Book
+    Book: state.Book,
+    Page: state.Page
   };
 };
 

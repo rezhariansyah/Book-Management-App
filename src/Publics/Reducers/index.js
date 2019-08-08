@@ -5,12 +5,14 @@ import Book from './Book';
 import Borrow from './Borrow';
 import User from './user';
 import Login from './login';
+import Page from "./pagination";
 
 const appReducer = combineReducers({
   Book,
   Borrow,
   User,
-  Login
+  Login,
+  Page
 });
 
 export default appReducer;

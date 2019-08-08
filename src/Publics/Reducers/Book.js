@@ -3,7 +3,7 @@ const initialState = {
   isLoading: false,
   isFulfilled: false,
   isRejected: false,
-  userList : []
+  userList: []
 };
 
 const Book = (state = initialState, action) => {
@@ -29,6 +29,28 @@ const Book = (state = initialState, action) => {
         isFulfilled: true,
         bookList: action.payload.data.result
       };
+    //PAGINATION
+    case "GET_PAGINATION_PENDING":
+      return {
+        ...state,
+        isLoading: true,
+        isFulfilled: false,
+        isRejected: false
+      };
+    case "GET_PAGINATION_REJECTED":
+      return {
+        ...state,
+        isLoading: false,
+        isRejected: true
+      };
+    case "GET_PAGINATION_FULFILLED":
+      console.log(action.payload.data);
+      return {
+        ...state,
+        isLoading: false,
+        isFulfilled: true,
+        bookList: action.payload.data.result
+      };
     //data user
     case "GET_ALL_USER_PENDING":
       return {
@@ -44,7 +66,7 @@ const Book = (state = initialState, action) => {
         isRejected: true
       };
     case "GET_ALL_USER_FULFILLED":
-      console.log("BABABA",action.payload.data.result);
+      console.log("BABABA", action.payload.data.result);
       return {
         ...state,
         isLoading: false,
