@@ -58,28 +58,25 @@ class BookDetail extends Component {
           <div className="row">
             <div className="container">
               <div className="row">
-                {localStorage.role == "user" ? (
-                  ""
-                ) : (
+                {localStorage.role == "admin" ? (
                   <input
                     type="button"
                     className="btn btn-outline-danger btn-sm mr-2 mb-2"
                     value="Delete"
                     onClick={() => this.deleteBook()}
                   />
+                ) : (
+                  ""
                 )}
 
-                {localStorage.role == "user" ? (
-                  ""
-                ) : (
+                {localStorage.role == "admin" ? (
                   <div>
                     <EditModal book={this.state.book} />
                   </div>
+                ) : (
+                  ""
                 )}
-                {
-                  status ? <BorrowModal book={this.state.book} /> : ""
-                }
-                
+                {status ? <BorrowModal book={this.state.book} /> : ""}
               </div>
             </div>
           </div>
