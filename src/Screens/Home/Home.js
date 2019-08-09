@@ -286,7 +286,7 @@ class Home extends Component {
           (<div className="col-md-6 text-center">
             <input
               type="button"
-              className="btn btn-outline-danger"
+              className="btn btn-outline-danger mr-5"
               onClick={this.previousPage}
               value="Previous"
             />
